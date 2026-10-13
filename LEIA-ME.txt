@@ -1,0 +1,2 @@
+Portal de notas gerado em 13/10/2026, 13:38:18.
+Publique o conteudo desta pasta no GitHub Pages. Nao inclua arquivos de oferta (.json) nem listas de palavras secretas.

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'self'; style-src 'unsafe-inline'; frame-src about:; child-src about:; base-uri 'none'; form-action 'none'">
+<title>Portal de Notas</title>
+<style>
+:root{--vermelho:#b5121b;--vermelho-esc:#8e0e15;--ink:#1f2933;--mudo:#616e7c;--linha:#d9dee5;--fundo:#f3f3f4;--card:#fff;--ok:#18803a;--bad:#c62828;--aviso:#8a5a00}
+@media (prefers-color-scheme:dark){:root{--ink:#e6e9ee;--mudo:#a0aab6;--linha:#2f3742;--fundo:#14181d;--card:#1c222a;--aviso:#f3c969}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+.topo{background:var(--vermelho);color:#fff;border-bottom:5px solid var(--vermelho-esc)}
+.topo-in{max-width:1000px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.topo b{font-size:18px;margin-right:12px}.topo span{opacity:.9}
+.sair{display:flex;gap:10px;align-items:center;font-size:14px}
+.sair button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
+.sair button:hover{background:rgba(255,255,255,.3)}
+.conteudo{flex:1;width:100%;max-width:1000px;margin:0 auto;padding:28px 16px}
+.rodape{text-align:center;color:var(--mudo);font-size:13px;padding:18px 16px}
+h1{font-size:26px;margin:.1em 0;line-height:1.2}
+.sub{color:var(--mudo);margin:.3em 0}.eyebrow{margin:0;color:var(--mudo);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.login{max-width:400px;margin:24px auto;background:var(--card);border:1px solid var(--linha);border-top:5px solid var(--vermelho);border-radius:10px;padding:28px}
+.login h1{font-size:24px}
+.login form{display:flex;flex-direction:column;gap:6px;margin-top:16px}
+label{font-weight:600;font-size:14px;margin-top:8px}
+input{font:inherit;padding:10px 12px;border:1px solid var(--linha);border-radius:8px;background:var(--fundo);color:var(--ink)}
+input:focus{outline:2px solid var(--vermelho);outline-offset:1px}
+.btn{display:inline-block;margin-top:16px;background:var(--vermelho);color:#fff;border:0;border-radius:8px;padding:11px 16px;font:600 16px "Segoe UI",system-ui,Arial,sans-serif;cursor:pointer}
+.btn:hover{background:var(--vermelho-esc)}.btn:disabled{opacity:.6;cursor:wait}
+.btn.sec{background:transparent;color:var(--vermelho);border:1px solid var(--vermelho);margin-top:12px;font-size:14px;padding:8px 12px}
+.btn.sec:hover{background:var(--vermelho);color:#fff}
+@media (prefers-color-scheme:dark){.btn.sec{color:#f0a8a8;border-color:#f0a8a8}.btn.sec:hover{background:#f0a8a8;color:#14181d}}
+.aviso{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:15px}
+.aviso.erro{background:#fde8e8;color:#8a1c1c;border:1px solid #f3b4b4}
+.dica{color:var(--mudo);font-size:13px;margin:16px 0 0}
+.resumo{background:var(--card);border:1px solid var(--linha);border-radius:12px;padding:24px;margin-bottom:20px}
+.total{display:flex;align-items:baseline;gap:10px;margin-top:14px;flex-wrap:wrap}
+.total span{color:var(--mudo)}.total b{font-size:46px;line-height:1;color:var(--vermelho)}.total small{font-size:18px;color:var(--mudo)}
+@media (prefers-color-scheme:dark){.total b{color:#f0a8a8}}
+.sit{display:inline-block;margin-left:auto;padding:4px 12px;border-radius:99px;font-size:14px;font-weight:600;background:var(--linha);color:var(--ink)}
+.sit.ok{background:#dff3e5;color:#0f5a27}.sit.bad{background:#fde8e8;color:#8a1c1c}
+.barra{height:8px;background:var(--linha);border-radius:99px;overflow:hidden;margin-top:10px}
+.barra i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.barra.grande{height:12px}.barra.grande i{background:var(--vermelho)}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.elem{background:var(--card);border:1px solid var(--linha);border-radius:12px;padding:20px;display:flex;flex-direction:column}
+.elem h3{margin:0}.peso{color:var(--mudo);font-size:13px;margin:.1em 0 .4em}
+.nota{font-size:30px;font-weight:700;margin:.2em 0 0}.nota small{font-size:15px;color:var(--mudo);font-weight:400}
+.elem ul{list-style:none;padding:0;margin:14px 0 0;flex:1}
+.elem li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--linha);font-size:14px}
+.elem li.pend{color:var(--aviso)}
+.elem .btn{margin-top:14px}
+.barra-q{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.barra-q .btn{margin:0}
+iframe.rel{width:100%;height:calc(100vh - 210px);min-height:420px;border:1px solid var(--linha);border-radius:10px;background:#fff}
+</style></head><body>
+<header class="topo"><div class="topo-in"><div><b id="escola"></b><span>Portal de Notas</span></div>
+<div class="sair" id="sair" hidden><span id="quem"></span><button type="button" id="btnSair">Sair</button></div></div></header>
+<main class="conteudo" id="app"></main>
+<footer class="rodape" id="rodape"></footer>
+<script src="config.js"></script>
+<script>
+/* Cifra v2 do Portal do Professor.
+   id    = SHA-256(sal || RA)[0..32 hex]
+   chave = PBKDF2-SHA256(RA + ":" + palavra normalizada, sal16, iter) -> AES-256-GCM
+   blob  = base64( sal16 | iv12 | texto cifrado ) */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.Cripto = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+  const enc = new TextEncoder(), dec = new TextDecoder();
+  const subtle = () => (globalThis.crypto || self.crypto).subtle;
+  const rnd = n => { const b = new Uint8Array(n); (globalThis.crypto || self.crypto).getRandomValues(b); return b; };
+  const hex = b => [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+  const toB64 = u8 => { let s = ""; for (let i = 0; i < u8.length; i += 8192) s += String.fromCharCode.apply(null, u8.subarray(i, i + 8192)); return btoa(s); };
+  const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+  /* minúsculas, sem acentos, só letras e dígitos (aceita "bodu kefa" ou "bodu-kefa") */
+  const normPalavra = s => String(s).toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/[^a-z0-9]/g, "");
+  const normRA = s => String(s).replace(/\D/g, "");
+
+  async function idArquivo(sal, ra) {
+    return hex(await subtle().digest("SHA-256", enc.encode(sal + normRA(ra)))).slice(0, 32);
+  }
+  async function chave(ra, palavra, salt, iter) {
+    const mat = await subtle().importKey("raw", enc.encode(normRA(ra) + ":" + normPalavra(palavra)), "PBKDF2", false, ["deriveKey"]);
+    return subtle().deriveKey({ name: "PBKDF2", hash: "SHA-256", salt, iterations: iter }, mat, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  }
+  async function cifrar(obj, ra, palavra, iter) {
+    const salt = rnd(16), iv = rnd(12);
+    const k = await chave(ra, palavra, salt, iter);
+    const ct = new Uint8Array(await subtle().encrypt({ name: "AES-GCM", iv }, k, enc.encode(JSON.stringify(obj))));
+    const out = new Uint8Array(28 + ct.length);
+    out.set(salt, 0); out.set(iv, 16); out.set(ct, 28);
+    return toB64(out);
+  }
+  async function decifrar(b64, ra, palavra, iter) {
+    const b = fromB64(b64);
+    const k = await chave(ra, palavra, b.slice(0, 16), iter);
+    const pt = await subtle().decrypt({ name: "AES-GCM", iv: b.slice(16, 28) }, k, b.slice(28));
+    return JSON.parse(dec.decode(pt));
+  }
+  return { idArquivo, cifrar, decifrar, normPalavra, normRA, rnd, hex };
+});
+
+</script>
+<script>
+"use strict";
+const CFG = window.PORTAL_CFG || {cab:{}, sal:"", iter:600000};
+const CAB = CFG.cab || {};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let dados = null;
+document.title = "Portal de Notas — " + (CAB.disciplina || "");
+$("#escola").textContent = (CAB.instituicao || "") + " ";
+$("#rodape").textContent = [CAB.disciplina, CAB.curso, CAB.professor, CAB.semestre].filter(Boolean).join(" · ");
+
+function login(msg, ra) {
+  dados = null; $("#sair").hidden = true;
+  $("#app").innerHTML = `<section class="login"><h1>Consulta de notas</h1>
+  <p class="sub">${esc(CAB.disciplina || "")}<br>${esc(CAB.curso || "")}<br>${esc(CAB.professor || "")} · ${esc(CAB.semestre || "")}</p>
+  ${msg ? `<div class="aviso erro" role="alert">${esc(msg)}</div>` : ""}
+  <form id="f" autocomplete="off"><label for="ra">RA</label>
+  <input id="ra" inputmode="numeric" required autofocus value="${esc(ra || "")}" placeholder="Seu RA (apenas dígitos)">
+  <label for="pw">Palavra secreta</label><input id="pw" type="password" required placeholder="Ex.: bodu-kefa-miti-zolo">
+  <button class="btn" id="ok" type="submit">Entrar</button></form>
+  <p class="dica">Use o RA e a palavra secreta que você recebeu do professor. Você só tem acesso às suas próprias notas.</p></section>`;
+  $("#f").onsubmit = async ev => {
+    ev.preventDefault();
+    const ra = Cripto.normRA($("#ra").value), pw = $("#pw").value;
+    $("#ok").disabled = true; $("#ok").textContent = "Verificando…";
+    try { await entrar(ra, pw); } catch (e) { login(e.message, ra); }
+  };
+}
+
+function carrega(h) {
+  return new Promise(res => {
+    if (window.__D && window.__D[h]) return res(window.__D[h]);
+    const sc = document.createElement("script"); sc.src = "d/" + h + ".js";
+    sc.onload = () => { sc.remove(); res((window.__D || {})[h] || null); };
+    sc.onerror = () => { sc.remove(); res(null); };
+    document.head.appendChild(sc);
+  });
+}
+
+const ERRO = "RA ou palavra secreta inválidos. Confira os dados digitados.";
+async function entrar(ra, pw) {
+  if (ra.length < 5) throw new Error(ERRO);
+  const id = await Cripto.idArquivo(CFG.sal, ra);
+  const b64 = await carrega(id);
+  if (!b64) throw new Error(ERRO);
+  try { dados = await Cripto.decifrar(b64, ra, pw, CFG.iter); } catch (e) { throw new Error(ERRO); }
+  $("#quem").textContent = dados.nome; $("#sair").hidden = false; painel();
+}
+
+function painel() {
+  const d = dados;
+  const cls = d.situacao === "Aprovado" ? "ok" : d.situacao === "Abaixo da média" ? "bad" : "";
+  $("#app").innerHTML = `<section class="resumo"><p class="eyebrow">Aluno(a)</p><h1>${esc(d.nome)}</h1><p class="sub">RA ${esc(d.ra)}</p>
+  <div class="total"><span>Média final</span><b>${esc(d.final_txt)}</b><small>/ 10,00</small><span class="sit ${cls}">${esc(d.situacao)}</span></div>
+  <div class="barra grande"><i style="width:${d.pct}%"></i></div>
+  <p class="sub">Média ponderada dos elementos avaliativos. Média mínima: ${esc(d.media_min_txt)}.${d.parcial_txt !== null && d.situacao === "Em andamento" ? ` Média parcial (somente o que já foi lançado): <b>${esc(d.parcial_txt)}</b>.` : ""}</p></section>
+  <section class="grade">${d.elementos.map((e, i) => `<article class="elem"><h3>${esc(e.nome)}</h3>
+  <p class="peso">Peso ${String(e.peso_pct).replace(".", ",")}% da média</p>
+  <p class="nota">${esc(e.nota_txt)} <small>/ 10,00</small></p><div class="barra"><i style="width:${e.pct}%"></i></div>
+  <ul>${e.questoes.map(q => `<li class="${q.lancada ? "" : "pend"}"><span>${esc(q.rotulo)}</span><b>${esc(q.valor_txt)} / ${esc(q.max_txt)}</b></li>`).join("")}</ul>
+  ${e.devolutiva ? `<button class="btn sec" data-e="${i}">Ver devolutiva</button>` : ""}</article>`).join("")}</section>`;
+  document.querySelectorAll("[data-e]").forEach(b => b.onclick = () => devolutiva(+b.dataset.e));
+  window.scrollTo(0, 0);
+}
+
+function devolutiva(i) {
+  const e = dados.elementos[i];
+  const css = "body{font:16px/1.55 Segoe UI,system-ui,Arial,sans-serif;color:#1f2933;margin:20px;max-width:820px}h2,h3,h4{color:#8e0e15;margin:1.2em 0 .4em}pre{background:#f3f3f4;padding:10px;border-radius:6px;overflow:auto}code{background:#f3f3f4;padding:1px 4px;border-radius:4px;font-family:Consolas,monospace}";
+  $("#app").innerHTML = `<div class="barra-q"><button class="btn sec" id="vol">← Painel de notas</button>
+  ${dados.elementos.map((x, j) => x.devolutiva && j !== i ? `<button class="btn sec" data-e="${j}">${esc(x.nome)}</button>` : "").join("")}</div>
+  <iframe class="rel" sandbox="" title="Devolutiva"></iframe>`;
+  $("iframe.rel").srcdoc = e.devolutiva_fmt === "html" ? e.devolutiva : `<!DOCTYPE html><meta charset="utf-8"><style>${css}</style><h2>${esc(e.nome)} — devolutiva</h2>${e.devolutiva}`;
+  $("#vol").onclick = painel;
+  document.querySelectorAll("[data-e]").forEach(b => b.onclick = () => devolutiva(+b.dataset.e));
+  window.scrollTo(0, 0);
+}
+
+$("#btnSair").onclick = () => login();
+login();
+</script></body></html>

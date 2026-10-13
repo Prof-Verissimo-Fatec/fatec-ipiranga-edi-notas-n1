@@ -1,0 +1,1 @@
+window.PORTAL_CFG={"v":2,"cab":{"disciplina":"Estrutra de Dados","curso":"Análsie e Desenvolviemtno de Sistemas","instituicao":"FatecIpiranga","professor":"Prof. Veríssimo","semestre":"2026-2"},"sal":"5a8f0a1f3f809ccff660e52ad753a783","iter":600000};
