@@ -3,21 +3,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'self'; style-src 'unsafe-inline'; frame-src about:; child-src about:; base-uri 'none'; form-action 'none'">
-<title>Portal de Notas</title>
+<title>Portal do Aluno</title>
 <style>
-:root{--vermelho:#b5121b;--vermelho-esc:#8e0e15;--ink:#1f2933;--mudo:#616e7c;--linha:#d9dee5;--fundo:#f3f3f4;--card:#fff;--ok:#18803a;--bad:#c62828;--aviso:#8a5a00}
-@media (prefers-color-scheme:dark){:root{--ink:#e6e9ee;--mudo:#a0aab6;--linha:#2f3742;--fundo:#14181d;--card:#1c222a;--aviso:#f3c969}}
+:root{--vermelho:#b5121b;--vermelho-esc:#8e0e15;--destaque:#b5121b;--ink:#1f2933;--mudo:#616e7c;--linha:#d9dee5;--fundo:#f3f3f4;--card:#fff;--suave:#f7f7f8;--ok:#18803a;--okbg:#dff3e5;--oktx:#0f5a27;--bad:#c62828;--badbg:#fde8e8;--badtx:#8a1c1c;--aviso:#8a5a00;--avisobg:#fff3c4;--avisotx:#6b4800}
+@media (prefers-color-scheme:dark){:root{--destaque:#f0a8a8;--ink:#e6e9ee;--mudo:#a0aab6;--linha:#2f3742;--fundo:#14181d;--card:#1c222a;--suave:#222a33;--ok:#4cc27a;--okbg:#17301f;--oktx:#8fe0ae;--badbg:#3a1a1a;--badtx:#ffb3b3;--aviso:#f3c969;--avisobg:#33290f;--avisotx:#f3c969}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--fundo);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column}
 .topo{background:var(--vermelho);color:#fff;border-bottom:5px solid var(--vermelho-esc)}
-.topo-in{max-width:1000px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.topo-in{max-width:1040px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .topo b{font-size:18px;margin-right:12px}.topo span{opacity:.9}
 .sair{display:flex;gap:10px;align-items:center;font-size:14px}
 .sair button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
 .sair button:hover{background:rgba(255,255,255,.3)}
-.conteudo{flex:1;width:100%;max-width:1000px;margin:0 auto;padding:28px 16px}
+.conteudo{flex:1;width:100%;max-width:1040px;margin:0 auto;padding:28px 16px}
 .rodape{text-align:center;color:var(--mudo);font-size:13px;padding:18px 16px}
 h1{font-size:26px;margin:.1em 0;line-height:1.2}
+h2{font-size:19px;margin:0 0 4px}
 .sub{color:var(--mudo);margin:.3em 0}.eyebrow{margin:0;color:var(--mudo);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
 .login{max-width:400px;margin:24px auto;background:var(--card);border:1px solid var(--linha);border-top:5px solid var(--vermelho);border-radius:10px;padding:28px}
 .login h1{font-size:24px}
@@ -27,33 +28,60 @@ input{font:inherit;padding:10px 12px;border:1px solid var(--linha);border-radius
 input:focus{outline:2px solid var(--vermelho);outline-offset:1px}
 .btn{display:inline-block;margin-top:16px;background:var(--vermelho);color:#fff;border:0;border-radius:8px;padding:11px 16px;font:600 16px "Segoe UI",system-ui,Arial,sans-serif;cursor:pointer}
 .btn:hover{background:var(--vermelho-esc)}.btn:disabled{opacity:.6;cursor:wait}
-.btn.sec{background:transparent;color:var(--vermelho);border:1px solid var(--vermelho);margin-top:12px;font-size:14px;padding:8px 12px}
-.btn.sec:hover{background:var(--vermelho);color:#fff}
-@media (prefers-color-scheme:dark){.btn.sec{color:#f0a8a8;border-color:#f0a8a8}.btn.sec:hover{background:#f0a8a8;color:#14181d}}
+.btn.sec{background:transparent;color:var(--destaque);border:1px solid var(--destaque);margin-top:12px;font-size:14px;padding:8px 12px}
+.btn.sec:hover{background:var(--vermelho);border-color:var(--vermelho);color:#fff}
+.lnk{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--destaque);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .aviso{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:15px}
-.aviso.erro{background:#fde8e8;color:#8a1c1c;border:1px solid #f3b4b4}
+.aviso.erro{background:var(--badbg);color:var(--badtx);border:1px solid #f3b4b4}
 .dica{color:var(--mudo);font-size:13px;margin:16px 0 0}
-.resumo{background:var(--card);border:1px solid var(--linha);border-radius:12px;padding:24px;margin-bottom:20px}
-.total{display:flex;align-items:baseline;gap:10px;margin-top:14px;flex-wrap:wrap}
-.total span{color:var(--mudo)}.total b{font-size:46px;line-height:1;color:var(--vermelho)}.total small{font-size:18px;color:var(--mudo)}
-@media (prefers-color-scheme:dark){.total b{color:#f0a8a8}}
-.sit{display:inline-block;margin-left:auto;padding:4px 12px;border-radius:99px;font-size:14px;font-weight:600;background:var(--linha);color:var(--ink)}
-.sit.ok{background:#dff3e5;color:#0f5a27}.sit.bad{background:#fde8e8;color:#8a1c1c}
-.barra{height:8px;background:var(--linha);border-radius:99px;overflow:hidden;margin-top:10px}
+.card{background:var(--card);border:1px solid var(--linha);border-radius:12px;padding:22px;margin-bottom:20px}
+.cab{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.sit{display:inline-block;padding:4px 12px;border-radius:99px;font-size:14px;font-weight:600;background:var(--linha);color:var(--ink);white-space:nowrap}
+.sit.ok{background:var(--okbg);color:var(--oktx)}.sit.bad{background:var(--badbg);color:var(--badtx)}.sit.and{background:var(--avisobg);color:var(--avisotx)}
+/* painel N1 | N2 | Média */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.tile{border:1px solid var(--linha);border-radius:10px;padding:16px;background:var(--suave);display:flex;flex-direction:column;gap:2px}
+.tile.media{border-color:var(--vermelho);border-width:2px}
+.tile .rot{font-size:13px;color:var(--mudo);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.tile .val{font-size:40px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .val small{font-size:15px;color:var(--mudo);font-weight:400}
+.tile.media .val{color:var(--destaque)}
+.tile.pend .val{color:var(--mudo)}
+.tile .obs{font-size:13px;color:var(--mudo)}
+.barra{height:8px;background:var(--linha);border-radius:99px;overflow:hidden;margin-top:8px}
 .barra i{display:block;height:100%;background:var(--ok);border-radius:99px}
-.barra.grande{height:12px}.barra.grande i{background:var(--vermelho)}
-.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-.elem{background:var(--card);border:1px solid var(--linha);border-radius:12px;padding:20px;display:flex;flex-direction:column}
-.elem h3{margin:0}.peso{color:var(--mudo);font-size:13px;margin:.1em 0 .4em}
-.nota{font-size:30px;font-weight:700;margin:.2em 0 0}.nota small{font-size:15px;color:var(--mudo);font-weight:400}
-.elem ul{list-style:none;padding:0;margin:14px 0 0;flex:1}
-.elem li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--linha);font-size:14px}
+.tile.media .barra i{background:var(--vermelho)}
+.meta{margin:16px 0 0;padding:10px 14px;border-radius:8px;background:var(--avisobg);color:var(--avisotx);font-size:15px}
+/* composição */
+.formula{font-size:15px;background:var(--suave);border-radius:8px;padding:10px 14px;margin:14px 0 4px;font-variant-numeric:tabular-nums;overflow-x:auto;white-space:nowrap}
+.formula b{color:var(--destaque)}
+.comp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:14px}
+.parte{border:1px solid var(--linha);border-radius:10px;padding:16px}
+.parte h3{margin:0;font-size:16px;display:flex;justify-content:space-between;gap:8px}
+.parte h3 span{color:var(--mudo);font-weight:400;font-size:14px}
+.parte table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+.parte td{padding:7px 0;border-bottom:1px solid var(--linha);vertical-align:middle}
+.parte td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:10px}
+.parte td small{display:block;color:var(--mudo);font-size:12px}.parte td.n small{display:inline}
+.parte tr.tot td{border-bottom:0;border-top:2px solid var(--ink);font-weight:700;padding-top:9px}
+.parte tr.sub2 td{color:var(--mudo);font-size:13px;padding:4px 0 4px 14px}
+.parte tr.pend td{color:var(--aviso)}
+.n2 .parte{border-style:dashed}
+.n2 .vazio{color:var(--mudo);font-size:14px;margin:10px 0 0}
+/* devolutivas */
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:14px}
+.elem{border:1px solid var(--linha);border-radius:10px;padding:16px;display:flex;flex-direction:column}
+.elem h3{margin:0;font-size:16px}.elem .tipo{color:var(--mudo);font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin:0 0 2px}
+.nota{font-size:26px;font-weight:700;margin:.2em 0 0;font-variant-numeric:tabular-nums}.nota small{font-size:14px;color:var(--mudo);font-weight:400}
+.elem ul{list-style:none;padding:0;margin:12px 0 0;flex:1}
+.elem li{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--linha);font-size:14px}
 .elem li.pend{color:var(--aviso)}
-.elem .btn{margin-top:14px}
+.elem .btn{margin-top:12px;align-self:flex-start}
 .barra-q{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.barra-q .btn{margin:0}
 iframe.rel{width:100%;height:calc(100vh - 210px);min-height:420px;border:1px solid var(--linha);border-radius:10px;background:#fff}
+@media (max-width:760px){.tiles{grid-template-columns:1fr}.comp{grid-template-columns:1fr}.tile .val{font-size:34px}.card{padding:18px}}
 </style></head><body>
-<header class="topo"><div class="topo-in"><div><b id="escola"></b><span>Portal de Notas</span></div>
+<header class="topo"><div class="topo-in"><div><b id="escola"></b><span>Portal do Aluno</span></div>
 <div class="sair" id="sair" hidden><span id="quem"></span><button type="button" id="btnSair">Sair</button></div></div></header>
 <main class="conteudo" id="app"></main>
 <footer class="rodape" id="rodape"></footer>
@@ -110,14 +138,16 @@ const CFG = window.PORTAL_CFG || {cab:{}, sal:"", iter:600000};
 const CAB = CFG.cab || {};
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const f2 = (n, c) => n === null || n === undefined || isNaN(n) ? "—" : Number(n).toFixed(c === undefined ? 2 : c).replace(".", ",");
+const pct = n => Math.max(0, Math.min(100, (n || 0) * 10));
 let dados = null;
-document.title = "Portal de Notas — " + (CAB.disciplina || "");
+document.title = "Portal do Aluno — " + (CAB.disciplina || "");
 $("#escola").textContent = (CAB.instituicao || "") + " ";
 $("#rodape").textContent = [CAB.disciplina, CAB.curso, CAB.professor, CAB.semestre].filter(Boolean).join(" · ");
 
 function login(msg, ra) {
   dados = null; $("#sair").hidden = true;
-  $("#app").innerHTML = `<section class="login"><h1>Consulta de notas</h1>
+  $("#app").innerHTML = `<section class="login"><h1>Portal do Aluno</h1>
   <p class="sub">${esc(CAB.disciplina || "")}<br>${esc(CAB.curso || "")}<br>${esc(CAB.professor || "")} · ${esc(CAB.semestre || "")}</p>
   ${msg ? `<div class="aviso erro" role="alert">${esc(msg)}</div>` : ""}
   <form id="f" autocomplete="off"><label for="ra">RA</label>
@@ -153,21 +183,78 @@ async function entrar(ra, pw) {
   $("#quem").textContent = dados.nome; $("#sair").hidden = false; painel();
 }
 
+const clsSit = s => s === "Aprovado" ? "ok" : s === "Abaixo da média" ? "bad" : s === "Em andamento" ? "and" : "";
+const idxEl = id => dados.elementos.findIndex(e => e.id === id);
+const btnDev = id => { const i = idxEl(id); return i >= 0 && dados.elementos[i].devolutiva ? ` <button class="lnk" data-e="${i}">ver correção</button>` : ""; };
+
 function painel() {
+  if (!dados.semestre) return painelElementos();
+  const d = dados, s = d.semestre, c = d.casas || 2, P = s.pesos, min = d.media_min;
+  const tile = (rot, n, obs, extra) => `<div class="tile ${extra || ""} ${n === null ? "pend" : ""}"><span class="rot">${rot}</span>
+    <span class="val">${f2(n, c)} <small>/ 10</small></span><div class="barra"><i style="width:${pct(n)}%"></i></div><span class="obs">${obs}</span></div>`;
+  $("#app").innerHTML = `<section class="card"><div class="cab"><div><p class="eyebrow">Aluno(a)</p><h1>${esc(d.nome)}</h1><p class="sub">RA ${esc(d.ra)}</p></div>
+  <span class="sit ${clsSit(s.situacao)}">${esc(s.situacao)}</span></div>
+  <div class="tiles">
+    ${tile("Nota N1", s.n1.nota, s.n1.lancado ? `Atividades ${P.ativ}% + Avaliação ${P.aval}%` : "Ainda não lançada")}
+    ${tile("Nota N2", s.n2.nota, s.n2.lancado ? `Atividades ${P.ativ}% + Avaliação ${P.aval}%` : "Ainda não realizada (outubro e novembro)")}
+    ${tile("Média do semestre", s.media, s.media === null ? "(N1 + N2) ÷ 2 — aguardando a N2" : `(N1 + N2) ÷ 2 · mínima ${f2(min, c)}`, "media")}
+  </div>
+  ${s.necessaria === null ? "" : s.necessaria > 10
+    ? `<p class="meta">Mesmo com N2 = 10,00 a média do semestre não alcança ${f2(min, c)}. Converse com o professor.</p>`
+    : `<p class="meta">Para alcançar a média ${f2(min, c)} no semestre, você precisa de <b>N2 ≥ ${f2(s.necessaria, c)}</b>.</p>`}
+  </section>
+  ${secaoBimestre("N1", s.n1, P, c, "Referente a agosto e setembro.")}
+  ${secaoBimestre("N2", s.n2, P, c, "Referente a outubro e novembro.")}
+  ${d.elementos.length ? `<section class="card"><h2>Correções e devolutivas</h2><p class="sub">Nota de cada elemento avaliativo em 0–10 e o relatório de correção individual.</p>
+  <div class="grade">${d.elementos.map((e, i) => `<article class="elem"><p class="tipo">${esc(rotComp(e.comp))}</p><h3>${esc(e.nome)}</h3>
+  <p class="nota">${esc(e.nota_txt)} <small>/ 10,00</small></p><div class="barra"><i style="width:${e.pct}%"></i></div>
+  ${e.questoes.length > 1 ? `<ul>${e.questoes.map(q => `<li class="${q.lancada ? "" : "pend"}"><span>${esc(q.rotulo)}</span><b>${esc(q.valor_txt)} / ${esc(q.max_txt)}</b></li>`).join("")}</ul>` : ""}
+  ${e.devolutiva ? `<button class="btn sec" data-e="${i}">Ver devolutiva</button>` : ""}</article>`).join("")}</div></section>` : ""}`;
+  liga(); window.scrollTo(0, 0);
+}
+
+const ROT = { "N1-prova": "N1 · Prova", "N1-ativ": "N1 · Atividade", "N1-bonus": "N1 · Bônus", "N2-prova": "N2 · Prova", "N2-ativ": "N2 · Atividade", "N2-bonus": "N2 · Bônus" };
+const rotComp = k => ROT[k] || "Elemento avaliativo";
+
+function secaoBimestre(b, n, P, c, periodo) {
+  const linha = (it, valor, max) => `<tr class="${it.lancada ? "" : "pend"}"><td>${esc(it.nome)}${btnDev(it.id)}</td><td class="n">${it.lancada ? valor : "não lançada"}${it.lancada && max ? ` <small>/ ${max}</small>` : ""}</td></tr>`;
+  if (!n.lancado) {
+    return `<section class="card n2"><h2>Composição da ${b}</h2><p class="sub">${periodo} <b>Ainda não realizada.</b></p>
+    <div class="comp"><div class="parte"><h3>Atividades ${b} <span>${P.ativ}%</span></h3><p class="vazio">Média aritmética das atividades ${b}-1, ${b}-2 e ${b}-3.</p>
+    ${n.ativ.itens.length ? `<table>${n.ativ.itens.map(it => linha(it, "", "")).join("")}</table>` : ""}</div>
+    <div class="parte"><h3>Avaliação ${b} <span>${P.aval}%</span></h3><p class="vazio">Prova ${b}${n.bonus.itens.length ? " + atividade bônus" : ""}.</p></div></div></section>`;
+  }
+  const provaItens = n.prova.itens.map(it => { const e = dados.elementos[idxEl(it.id)];
+    return `<tr class="sub2 ${it.lancada ? "" : "pend"}"><td>${esc(it.nome)}${btnDev(it.id)}</td><td class="n">${e ? `${esc(e.soma_txt)} / ${esc(e.max_txt)}` : f2(it.nota, c)}</td></tr>`; }).join("");
+  const bonusItens = n.bonus.itens.map(it => `<tr class="sub2 ${it.lancada ? "" : "pend"}"><td>${esc(it.nome)} — nota ${it.lancada ? f2(it.nota, c) : "—"} × ${f2(P.bonus_max * 10, 0)}%${btnDev(it.id)}</td><td class="n"></td></tr>`).join("");
+  const somaPV = n.prova.nota + n.bonus.pontos;
+  return `<section class="card"><h2>Composição da ${b}</h2><p class="sub">${periodo}</p>
+  <div class="formula">${b} = ${P.ativ}% × <b>${f2(n.ativ.nota, c)}</b> (atividades) + ${P.aval}% × <b>${f2(n.aval, c)}</b> (avaliação) = <b>${f2(n.nota, c)}</b></div>
+  <div class="comp">
+    <div class="parte"><h3>Atividades ${b} <span>${P.ativ}% da ${b}</span></h3><table>
+      ${n.ativ.itens.map(it => linha(it, f2(it.nota, c), "10")).join("") || `<tr><td colspan="2" class="sub">Nenhuma atividade lançada.</td></tr>`}
+      <tr class="tot"><td>Média aritmética</td><td class="n">${f2(n.ativ.nota, c)}</td></tr></table></div>
+    <div class="parte"><h3>Avaliação ${b} <span>${P.aval}% da ${b}</span></h3><table>
+      <tr class="${n.prova.lancado ? "" : "pend"}"><td>Prova ${b}<small>${n.prova.lancado ? `${f2(n.prova.soma)} de ${f2(n.prova.max)} pontos` : "não lançada"}</small></td><td class="n">${f2(n.prova.nota, c)}</td></tr>
+      ${provaItens}
+      ${n.bonus.itens.length ? `<tr><td>Atividade bônus<small>até +${f2(P.bonus_max)} ponto na prova</small></td><td class="n">+${f2(n.bonus.pontos)}</td></tr>${bonusItens}` : ""}
+      <tr class="tot"><td>Avaliação ${b}${somaPV > 10 ? "<small>limitada a 10,00</small>" : ""}</td><td class="n">${f2(n.aval, c)}</td></tr></table></div>
+  </div></section>`;
+}
+
+/* compatibilidade com arquivos publicados antes da composição semestral */
+function painelElementos() {
   const d = dados;
-  const cls = d.situacao === "Aprovado" ? "ok" : d.situacao === "Abaixo da média" ? "bad" : "";
-  $("#app").innerHTML = `<section class="resumo"><p class="eyebrow">Aluno(a)</p><h1>${esc(d.nome)}</h1><p class="sub">RA ${esc(d.ra)}</p>
-  <div class="total"><span>Média final</span><b>${esc(d.final_txt)}</b><small>/ 10,00</small><span class="sit ${cls}">${esc(d.situacao)}</span></div>
-  <div class="barra grande"><i style="width:${d.pct}%"></i></div>
-  <p class="sub">Média ponderada dos elementos avaliativos. Média mínima: ${esc(d.media_min_txt)}.${d.parcial_txt !== null && d.situacao === "Em andamento" ? ` Média parcial (somente o que já foi lançado): <b>${esc(d.parcial_txt)}</b>.` : ""}</p></section>
-  <section class="grade">${d.elementos.map((e, i) => `<article class="elem"><h3>${esc(e.nome)}</h3>
-  <p class="peso">Peso ${String(e.peso_pct).replace(".", ",")}% da média</p>
+  $("#app").innerHTML = `<section class="card"><p class="eyebrow">Aluno(a)</p><h1>${esc(d.nome)}</h1><p class="sub">RA ${esc(d.ra)}</p>
+  <p class="sub">Média ponderada dos elementos: <b>${esc(d.final_txt)}</b> · ${esc(d.situacao)}</p></section>
+  <section class="grade">${d.elementos.map((e, i) => `<article class="elem card"><h3>${esc(e.nome)}</h3>
   <p class="nota">${esc(e.nota_txt)} <small>/ 10,00</small></p><div class="barra"><i style="width:${e.pct}%"></i></div>
   <ul>${e.questoes.map(q => `<li class="${q.lancada ? "" : "pend"}"><span>${esc(q.rotulo)}</span><b>${esc(q.valor_txt)} / ${esc(q.max_txt)}</b></li>`).join("")}</ul>
   ${e.devolutiva ? `<button class="btn sec" data-e="${i}">Ver devolutiva</button>` : ""}</article>`).join("")}</section>`;
-  document.querySelectorAll("[data-e]").forEach(b => b.onclick = () => devolutiva(+b.dataset.e));
-  window.scrollTo(0, 0);
+  liga(); window.scrollTo(0, 0);
 }
+
+function liga() { document.querySelectorAll("[data-e]").forEach(b => b.onclick = () => devolutiva(+b.dataset.e)); }
 
 function devolutiva(i) {
   const e = dados.elementos[i];
@@ -177,8 +264,7 @@ function devolutiva(i) {
   <iframe class="rel" sandbox="" title="Devolutiva"></iframe>`;
   $("iframe.rel").srcdoc = e.devolutiva_fmt === "html" ? e.devolutiva : `<!DOCTYPE html><meta charset="utf-8"><style>${css}</style><h2>${esc(e.nome)} — devolutiva</h2>${e.devolutiva}`;
   $("#vol").onclick = painel;
-  document.querySelectorAll("[data-e]").forEach(b => b.onclick = () => devolutiva(+b.dataset.e));
-  window.scrollTo(0, 0);
+  liga(); window.scrollTo(0, 0);
 }
 
 $("#btnSair").onclick = () => login();
